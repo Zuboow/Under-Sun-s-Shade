@@ -1,0 +1,32 @@
+﻿{
+	"RecipeList": [
+		{
+			"CraftedItemName": "Pickaxe",
+			"ItemID": 6,
+			"IngredientNames": [ "Stone", "Stick", "none" ],
+			"IngredientQuantities": [ 2, 1, 0 ],
+			"AmountCrafted": 1
+		},
+		{
+			"CraftedItemName": "Furnace",
+			"ItemID": 17,
+			"IngredientNames": [ "Stone", "none", "none" ],
+			"IngredientQuantities": [ 10, 0, 0 ],
+			"AmountCrafted": 1
+		},
+		{
+			"CraftedItemName": "Chest",
+			"ItemID": 18,
+			"IngredientNames": [ "Iron Bar", "none", "none" ],
+			"IngredientQuantities": [ 6, 0, 0 ],
+			"AmountCrafted": 1
+		},
+		{
+			"CraftedItemName": "DefenceTurret",
+			"ItemID": 19,
+			"IngredientNames": [ "Iron Bar", "none", "none" ],
+			"IngredientQuantities": [ 5, 0, 0 ],
+			"AmountCrafted": 1
+		}
+	]
+}

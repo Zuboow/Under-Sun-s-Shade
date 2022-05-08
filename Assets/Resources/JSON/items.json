@@ -1,0 +1,204 @@
+﻿{
+	"ItemList": [
+		{
+			"ItemID": 0,
+			"ItemName": "Fruit",
+			"SpriteName": "Fruit",
+			"Amount": 0,
+			"Stackable": true,
+			"IsSeed": false,
+			"ItemValue": 1,
+			"ItemDescription": ""
+		},
+		{
+			"ItemID": 1,
+			"ItemName": "Coin",
+			"SpriteName": "Coin",
+			"Amount": 0,
+			"Stackable": true,
+			"IsSeed": false,
+			"ItemValue": 1,
+			"ItemDescription": ""
+		},
+		{
+			"ItemID": 2,
+			"ItemName": "Golden Fruit",
+			"SpriteName": "GoldenFruit",
+			"Amount": 0,
+			"Stackable": true,
+			"IsSeed": false,
+			"ItemValue": 1,
+			"ItemDescription": ""
+		},
+		{
+			"ItemID": 3,
+			"ItemName": "Golden Block",
+			"SpriteName": "GoldenFruitBlock",
+			"Amount": 0,
+			"Stackable": false,
+			"IsSeed": false,
+			"ItemValue": 1,
+			"ItemDescription": "This item might be the most expensive one on this planet. It looks cool though."
+		},
+		{
+			"ItemID": 4,
+			"ItemName": "Wheat",
+			"SpriteName": "Wheat",
+			"Amount": 0,
+			"Stackable": true,
+			"IsSeed": false,
+			"ItemValue": 1,
+			"ItemDescription": "Probably the most common farmed plant on the planet. Can be crafted to flour or fed to animals."
+		},
+		{
+			"ItemID": 5,
+			"ItemName": "Wheat Seeds",
+			"SpriteName": "WheatSeeds",
+			"Amount": 0,
+			"Stackable": true,
+			"IsSeed": true,
+			"ItemValue": 1,
+			"ItemDescription": "Very common seeds."
+		},
+		{
+			"ItemID": 6,
+			"ItemName": "Pickaxe",
+			"SpriteName": "Pickaxe",
+			"Amount": 0,
+			"Stackable": false,
+			"IsSeed": false,
+			"ItemValue": 1,
+			"ItemDescription": "With it you are able to destroy huge stones."
+		},
+		{
+			"ItemID": 7,
+			"ItemName": "Stone",
+			"SpriteName": "Stone",
+			"Amount": 0,
+			"Stackable": true,
+			"IsSeed": false,
+			"ItemValue": 1,
+			"ItemDescription": ""
+		},
+		{
+			"ItemID": 8,
+			"ItemName": "Carrot Seeds",
+			"SpriteName": "CarrotSeeds",
+			"Amount": 0,
+			"Stackable": true,
+			"IsSeed": true,
+			"ItemValue": 1,
+			"ItemDescription": ""
+		},
+		{
+			"ItemID": 9,
+			"ItemName": "Carrot",
+			"SpriteName": "Carrot",
+			"Amount": 0,
+			"Stackable": true,
+			"IsSeed": false,
+			"ItemValue": 1,
+			"ItemDescription": ""
+		},
+		{
+			"ItemID": 10,
+			"ItemName": "Pumpkin Seeds",
+			"SpriteName": "PumpkinSeeds",
+			"Amount": 0,
+			"Stackable": true,
+			"IsSeed": true,
+			"ItemValue": 1,
+			"ItemDescription": ""
+		},
+		{
+			"ItemID": 11,
+			"ItemName": "Pumpkin",
+			"SpriteName": "Pumpkin",
+			"Amount": 0,
+			"Stackable": true,
+			"IsSeed": false,
+			"ItemValue": 1,
+			"ItemDescription": ""
+		},
+		{
+			"ItemID": 12,
+			"ItemName": "Flour",
+			"SpriteName": "Flour",
+			"Amount": 0,
+			"Stackable": true,
+			"IsSeed": false,
+			"ItemValue": 1,
+			"ItemDescription": "Common and cheap white powder, used to make bread and other foods."
+		},
+		{
+			"ItemID": 13,
+			"ItemName": "Stick",
+			"SpriteName": "Stick",
+			"Amount": 0,
+			"Stackable": true,
+			"IsSeed": false,
+			"ItemValue": 1,
+			"ItemDescription": "A stick. That's it."
+		},
+		{
+			"ItemID": 14,
+			"ItemName": "Iron Ore",
+			"SpriteName": "IronOre",
+			"Amount": 0,
+			"Stackable": true,
+			"IsSeed": false,
+			"ItemValue": 3,
+			"ItemDescription": "This ore can be smelted in furnace into iron bar."
+		},
+		{
+			"ItemID": 15,
+			"ItemName": "Coal Ore",
+			"SpriteName": "CoalOre",
+			"Amount": 0,
+			"Stackable": true,
+			"IsSeed": false,
+			"ItemValue": 2,
+			"ItemDescription": "Gives a lot of heat."
+		},
+		{
+			"ItemID": 16,
+			"ItemName": "Iron Bar",
+			"SpriteName": "IronBar",
+			"Amount": 0,
+			"Stackable": true,
+			"IsSeed": false,
+			"ItemValue": 6,
+			"ItemDescription": "Very useful material."
+		},
+		{
+			"ItemID": 17,
+			"ItemName": "Furnace",
+			"SpriteName": "Furnace",
+			"Amount": 0,
+			"Stackable": true,
+			"IsSeed": false,
+			"ItemValue": 0,
+			"ItemDescription": "Stone furnace. It can be used to smelt ore."
+		},
+		{
+			"ItemID": 18,
+			"ItemName": "Chest",
+			"SpriteName": "Chest",
+			"Amount": 0,
+			"Stackable": true,
+			"IsSeed": false,
+			"ItemValue": 0,
+			"ItemDescription": "Stores items."
+		},
+		{
+			"ItemID": 19,
+			"ItemName": "DefenceTurret",
+			"SpriteName": "DefenceTurret",
+			"Amount": 0,
+			"Stackable": true,
+			"IsSeed": false,
+			"ItemValue": 0,
+			"ItemDescription": "Makes life safer and more exciting."
+		}
+	]
+}
