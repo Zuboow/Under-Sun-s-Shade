@@ -36,7 +36,7 @@ public class InventorySlotController : MonoBehaviour
             {
                 DropItemFromInventory(gameObject);
                 GrabbingController.EditItemList(GameObject.FindGameObjectWithTag("InventoryContainer"), GameObject.FindGameObjectWithTag("HotbarContainer"));
-                UpdateOpenInteractableObjectInventory(DesiredItemName, SlotItem, gameObject);
+                UpdateOpenInteractableObjectInventory();
             }
             else if (Input.GetMouseButtonDown(0) && Input.GetKey(Settings.AutoAddButton) && ChestController.CurrentChest == null && Settings.InteractableInventoryType == Settings.OpenInteractableInventoryType.Empty && !SlotEmpty && Clickable)
             {
@@ -52,30 +52,31 @@ public class InventorySlotController : MonoBehaviour
             {
                 AutoMoveBetweenAssemblyMachineAndInventory(gameObject, InventorySlot, HotbarSlot, SlotItem.ItemName, SlotItem.Amount, AssemblyMachineInput1, AssemblyMachineInput2, AssemblyMachineInput3, AssemblyMachineOutput);
                 GrabbingController.EditItemList(GameObject.FindGameObjectWithTag("InventoryContainer"), GameObject.FindGameObjectWithTag("HotbarContainer"));
+                UpdateOpenInteractableObjectInventory();
             }
             else if (Input.GetMouseButtonDown(0) && Input.GetKey(Settings.AutoAddButton) && ChestController.CurrentChest != null && !SlotEmpty && Clickable)
             {
                 AutoMoveToInventory(gameObject, InventorySlot, HotbarSlot, SlotItem.ItemName, SlotItem.Amount);
                 GrabbingController.EditItemList(GameObject.FindGameObjectWithTag("InventoryContainer"), GameObject.FindGameObjectWithTag("HotbarContainer"));
-                UpdateOpenInteractableObjectInventory(DesiredItemName, SlotItem, gameObject);
+                UpdateOpenInteractableObjectInventory();
             }
             else if ((Input.GetMouseButtonDown(0) || Input.GetMouseButtonDown(1)) && InventoryController.GrabbedSlot != null && Clickable)
             {
                 DecideItemReplacement(gameObject);
                 GrabbingController.EditItemList(GameObject.FindGameObjectWithTag("InventoryContainer"), GameObject.FindGameObjectWithTag("HotbarContainer"));
-                UpdateOpenInteractableObjectInventory(DesiredItemName, SlotItem, gameObject);
+                UpdateOpenInteractableObjectInventory();
             }
             else if (Input.GetMouseButtonDown(1) && InventoryController.GrabbedSlot == null && !SlotEmpty)
             {
                 TakeHalf(gameObject);
                 GrabbingController.EditItemList(GameObject.FindGameObjectWithTag("InventoryContainer"), GameObject.FindGameObjectWithTag("HotbarContainer"));
-                UpdateOpenInteractableObjectInventory(DesiredItemName, SlotItem, gameObject);
+                UpdateOpenInteractableObjectInventory();
             }
             else if (Input.GetMouseButtonDown(0) && InventoryController.GrabbedSlot == null && !SlotEmpty)
             {
                 TakeAll(gameObject);
                 GrabbingController.EditItemList(GameObject.FindGameObjectWithTag("InventoryContainer"), GameObject.FindGameObjectWithTag("HotbarContainer"));
-                UpdateOpenInteractableObjectInventory(DesiredItemName, SlotItem, gameObject);
+                UpdateOpenInteractableObjectInventory();
             }
         }
     }
@@ -171,6 +172,7 @@ public class InventorySlotController : MonoBehaviour
                 clickedSlot.GetComponent<InventorySlotController>().UpdateAmount();
             }
         }
+        AssemblyMachineController.CurrentAssemblyMachine.GetComponent<AssemblyMachineController>().RecipeIngredientsLoaded = false;
     }
 
     public static void AutoMoveBetweenInventoryAndHotbar(GameObject clickedSlot, bool inventorySlot, string itemName, int quantity)
@@ -190,7 +192,7 @@ public class InventorySlotController : MonoBehaviour
         }
     }
 
-    public static void UpdateOpenInteractableObjectInventory(string desiredItemName, Item currentItem, GameObject currentSlot)
+    public static void UpdateOpenInteractableObjectInventory()
     {
         switch (Settings.InteractableInventoryType)
         {
@@ -202,7 +204,7 @@ public class InventorySlotController : MonoBehaviour
                 break;
             case Settings.OpenInteractableInventoryType.AssemblyMachine:
                 UpdateCurrentAssemblyMachine();
-                UpdateDesiredItemSprite(desiredItemName, currentItem, currentSlot);
+                AssemblyMachineController.CurrentAssemblyMachine.GetComponent<AssemblyMachineController>().RecipeIngredientsLoaded = false;
                 break;
         }
     }
@@ -468,14 +470,9 @@ public class InventorySlotController : MonoBehaviour
         transform.GetChild(0).GetComponent<TextMeshPro>().text = SlotItem.Stackable ? SlotItem.Amount.ToString() : "";
     }
 
-    public static void UpdateDesiredItemSprite(string desiredItemName, Item currentItem, GameObject currentSlot)
+    public void UpdateDesiredItemSprite(Item slotItem)
     {
-        currentSlot.transform.GetChild(1).GetComponent<Image>().sprite = desiredItemName == "" || currentItem != null ? Resources.Load<Sprite>($"Graphics/Sprites/Empty") : Resources.Load<Sprite>($"Graphics/Sprites/{desiredItemName}");
-    }
-
-    public void UpdateDesiredItemSprite()
-    {
-        transform.GetChild(1).GetComponentInChildren<Image>().sprite = DesiredItemName.Trim() == "" || SlotItem != null ? Resources.Load<Sprite>($"Graphics/Sprites/Empty") : Resources.Load<Sprite>($"Graphics/Sprites/{DesiredItemName}");
+        transform.GetChild(1).GetComponent<Image>().sprite = DesiredItemName.Trim() == "" || (slotItem != null && slotItem.ItemName.Trim() != "") ? Resources.Load<Sprite>($"Graphics/Sprites/Empty") : Resources.Load<Sprite>($"Graphics/Sprites/{DesiredItemName}");
     }
 
 }

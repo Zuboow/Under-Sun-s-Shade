@@ -1,14 +1,15 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class AssemblyMachineController : MonoBehaviour
 {
     public Item Input1, Input2, Input3, Output;
     public static GameObject AssemblyMachineUI, CurrentAssemblyMachine;
-    public bool AssemblyMachineOpen;
+    public bool AssemblyMachineOpen, RecipeIngredientsLoaded;
     public Animator AssemblyMachineAnimator;
-    public Recipe CurrentRecipe;
+    public Recipe CurrentRecipe = null;
 
     private float CurrentCraftingTime = 0f;
     public string SelectedItemName = "";
@@ -71,6 +72,7 @@ public class AssemblyMachineController : MonoBehaviour
         Settings.InteractableInventoryType = Settings.OpenInteractableInventoryType.AssemblyMachine;
         AssemblyMachineOpen = true;
         CurrentAssemblyMachine = gameObject;
+        RecipeIngredientsLoaded = false;
 
         LoadItemIntoSlot(AssemblyMachineUI.GetComponent<InventoryController>().InventorySlots[0], Input1);
         LoadItemIntoSlot(AssemblyMachineUI.GetComponent<InventoryController>().InventorySlots[1], Input2);
@@ -89,8 +91,8 @@ public class AssemblyMachineController : MonoBehaviour
                 selectedSlot.GetComponent<InventorySlotController>().UpdateGUI(Resources.Load<Sprite>($"Graphics/Sprites/{item.SpriteName}"));
                 selectedSlot.GetComponent<InventorySlotController>().SlotEmpty = false;
             }
-            if (slot.GetComponent<InventorySlotController>().DesiredItemName.Trim() != "")
-                slot.GetComponent<InventorySlotController>().UpdateDesiredItemSprite();
+            //if (slot.GetComponent<InventorySlotController>().DesiredItemName.Trim() != "")
+            //    slot.GetComponent<InventorySlotController>().UpdateDesiredItemSprite();
         }
     }
 
@@ -125,15 +127,51 @@ public class AssemblyMachineController : MonoBehaviour
                     }
                 }
             }
-            else
+            else if (!RecipeIngredientsLoaded)
             {
                 AssemblyMachineUI.GetComponent<InventoryController>().InventorySlots[2].GetComponent<InventorySlotController>().DesiredItemName = CurrentRecipe.IngredientNames[0] == "none" ? "" : LoadSpriteName(CurrentRecipe.IngredientNames[0]);
                 AssemblyMachineUI.GetComponent<InventoryController>().InventorySlots[1].GetComponent<InventorySlotController>().DesiredItemName = CurrentRecipe.IngredientNames[1] == "none" ? "" : LoadSpriteName(CurrentRecipe.IngredientNames[1]);
                 AssemblyMachineUI.GetComponent<InventoryController>().InventorySlots[0].GetComponent<InventorySlotController>().DesiredItemName = CurrentRecipe.IngredientNames[2] == "none" ? "" : LoadSpriteName(CurrentRecipe.IngredientNames[2]);
-                AssemblyMachineUI.GetComponent<InventoryController>().InventorySlots[2].GetComponent<InventorySlotController>().UpdateDesiredItemSprite();
-                AssemblyMachineUI.GetComponent<InventoryController>().InventorySlots[1].GetComponent<InventorySlotController>().UpdateDesiredItemSprite();
-                AssemblyMachineUI.GetComponent<InventoryController>().InventorySlots[0].GetComponent<InventorySlotController>().UpdateDesiredItemSprite();
+                AssemblyMachineUI.GetComponent<InventoryController>().InventorySlots[3].GetComponent<InventorySlotController>().DesiredItemName = CurrentRecipe.CraftedItemName == "none" ? "" : LoadSpriteName(CurrentRecipe.CraftedItemName);
+
+                AssemblyMachineUI.GetComponent<InventoryController>().InventorySlots[2].GetComponent<InventorySlotController>().UpdateDesiredItemSprite(Input3);
+                AssemblyMachineUI.GetComponent<InventoryController>().InventorySlots[1].GetComponent<InventorySlotController>().UpdateDesiredItemSprite(Input2);
+                AssemblyMachineUI.GetComponent<InventoryController>().InventorySlots[0].GetComponent<InventorySlotController>().UpdateDesiredItemSprite(Input1);
+                AssemblyMachineUI.GetComponent<InventoryController>().InventorySlots[3].GetComponent<InventorySlotController>().UpdateDesiredItemSprite(Output);
+
+                RecipeIngredientsLoaded = true;
             }
+        }
+        if (CurrentRecipe != null && (Output == null || Output.ItemName == "" || (Output.Amount < Settings.MaxItemQuantityPerSlot && Output.Stackable && Output.ItemName == CurrentRecipe.CraftedItemName)) &&
+            CurrentRecipe.IngredientNames.Length > 0 && CurrentRecipe.IngredientQuantities.Length > 0 &&
+            (CurrentRecipe.IngredientNames[0] == "none" || (Input3 != null && Input3.ItemName == CurrentRecipe.IngredientNames[0] && Input3.Amount >= CurrentRecipe.IngredientQuantities[0])) &&
+            (CurrentRecipe.IngredientNames[1] == "none" || (Input2 != null && Input2.ItemName == CurrentRecipe.IngredientNames[1] && Input2.Amount >= CurrentRecipe.IngredientQuantities[1])) &&
+            (CurrentRecipe.IngredientNames[2] == "none" || (Input1 != null && Input1.ItemName == CurrentRecipe.IngredientNames[2] && Input1.Amount >= CurrentRecipe.IngredientQuantities[2])))
+        {
+            if (CurrentCraftingTime < 5f)
+            {
+                CurrentCraftingTime += Time.unscaledDeltaTime;
+                if (AssemblyMachineOpen)
+                    GameObject.FindGameObjectWithTag("AssemblyMachineOutputSlider").GetComponent<Slider>().value = CurrentCraftingTime / 5f;
+            }
+            else
+            {
+                AddItemToOutput();
+                RemoveItemsFromInput();
+                if (AssemblyMachineOpen)
+                {
+                    UpdateSlots();
+                }
+                CurrentCraftingTime = 0f;
+                if (AssemblyMachineOpen)
+                    GameObject.FindGameObjectWithTag("AssemblyMachineOutputSlider").GetComponent<Slider>().value = 0f;
+            }
+        }
+        else
+        {
+            CurrentCraftingTime = 0f;
+            if (AssemblyMachineOpen)
+                GameObject.FindGameObjectWithTag("AssemblyMachineOutputSlider").GetComponent<Slider>().value = 0f;
         }
     }
 
@@ -168,39 +206,49 @@ public class AssemblyMachineController : MonoBehaviour
                 Output.Amount += 1;
             }
         }
+        RecipeIngredientsLoaded = false;
     }
 
     private void RemoveItemsFromInput()
     {
-        if (Input1.Amount - 1 > 0)
-            Input1.Amount--;
-        else
-            Input1 = null;
+        if (Input1 != null)
+        {
+            if (Input1.Amount - CurrentRecipe.IngredientQuantities[2] > 0)
+                Input1.Amount -= CurrentRecipe.IngredientQuantities[2];
+            else
+                Input1 = null;
+        }
 
-        if (Input2.Amount - 1 > 0)
-            Input2.Amount--;
-        else
-            Input2 = null;
+        if (Input2 != null)
+        {
+            if (Input2.Amount - CurrentRecipe.IngredientQuantities[1] > 0)
+                Input2.Amount -= CurrentRecipe.IngredientQuantities[1];
+            else
+                Input2 = null;
+        }
 
-        if (Input3.Amount - 1 > 0)
-            Input3.Amount--;
-        else
-            Input3 = null;
+        if (Input3 != null)
+        {
+            if (Input3.Amount - CurrentRecipe.IngredientQuantities[0] > 0)
+                Input3.Amount -= CurrentRecipe.IngredientQuantities[0];
+            else
+                Input3 = null;
+        }
     }
 
     public int AddItemToInput(string itemName, int quantity)
     {
         int inputNumber = 0;
-        if (Input1 == null || Input1.ItemName == "" || (Input1.ItemName == itemName && Input1.Amount < Settings.MaxItemQuantityPerSlot))
-            inputNumber = 1;
-        if (Input2 == null || Input2.ItemName == "" || (Input2.ItemName == itemName && Input2.Amount < Settings.MaxItemQuantityPerSlot))
-            inputNumber = 2;
         if (Input3 == null || Input3.ItemName == "" || (Input3.ItemName == itemName && Input3.Amount < Settings.MaxItemQuantityPerSlot))
             inputNumber = 3;
+        else if (Input2 == null || Input2.ItemName == "" || (Input2.ItemName == itemName && Input2.Amount < Settings.MaxItemQuantityPerSlot))
+            inputNumber = 2;
+        else if (Input1 == null || Input1.ItemName == "" || (Input1.ItemName == itemName && Input1.Amount < Settings.MaxItemQuantityPerSlot))
+            inputNumber = 1;
         Item returnedItem = inputNumber == 1 ? Input1 : inputNumber == 2 ? Input2 : Input3;
 
         int leftAmount = quantity;
-        if (returnedItem == null || returnedItem.Amount == 0)
+        if (returnedItem == null || returnedItem.ItemName == "" || returnedItem.Amount == 0)
         {
             foreach (Item item in JSONLoader.JSONItems.ItemList)
             {
