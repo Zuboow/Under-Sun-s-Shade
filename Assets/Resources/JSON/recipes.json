@@ -22,10 +22,17 @@
 			"AmountCrafted": 1
 		},
 		{
-			"CraftedItemName": "DefenceTurret",
+			"CraftedItemName": "Defence Turret",
 			"ItemID": 19,
 			"IngredientNames": [ "Iron Bar", "none", "none" ],
 			"IngredientQuantities": [ 5, 0, 0 ],
+			"AmountCrafted": 1
+		},
+		{
+			"CraftedItemName": "Hydroponic Farm",
+			"ItemID": 20,
+			"IngredientNames": [ "Iron Bar", "Stone", "none" ],
+			"IngredientQuantities": [ 8, 4, 0 ],
 			"AmountCrafted": 1
 		}
 	]

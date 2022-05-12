@@ -12,7 +12,7 @@ public class ItemDropper : MonoBehaviour
         }
         if (Input.GetKeyDown(KeyCode.V))
         {
-            DropItem("Chest", 1);
+            DropItem("Hydroponic Farm", 1);
         }
         if (Input.GetKeyDown(KeyCode.X))
         {
@@ -20,7 +20,7 @@ public class ItemDropper : MonoBehaviour
         }
         if (Input.GetKeyDown(KeyCode.B))
         {
-            DropItem("DefenceTurret", 2);
+            DropItem("Defence Turret", 2);
         }
     }
 

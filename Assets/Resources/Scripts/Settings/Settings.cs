@@ -41,7 +41,7 @@ public class Settings : MonoBehaviour
         DistanceForObjectsToBeInteractable = 2f,
         DistanceForThingsToBeAudible = 20f,
         DistanceForTurretToDetectEntities = 5f,
-        DistanceForAlienToDetectPlayerOrBuildings = 60f,
+        DistanceForAlienToDetectPlayerOrBuildings = 10f,
         TurretShootingInterval = 0.1f;
     public static bool 
         CheckCollisionOnAnimationHit = false, 
@@ -57,7 +57,8 @@ public class Settings : MonoBehaviour
     {
         Empty,
         Chest,
-        Furnace
+        Furnace,
+        AssemblyMachine
     }
 
     private void Start()

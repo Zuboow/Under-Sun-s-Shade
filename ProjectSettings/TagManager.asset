@@ -25,6 +25,8 @@ TagManager:
   - FurnaceInputSlider
   - FurnaceFuelSlider
   - EnemyEntity
+  - AssemblyMachineInventory
+  - AssemblyMachine
   layers:
   - Default
   - TransparentFX

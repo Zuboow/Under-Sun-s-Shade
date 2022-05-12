@@ -192,13 +192,23 @@
 		},
 		{
 			"ItemID": 19,
-			"ItemName": "DefenceTurret",
+			"ItemName": "Defence Turret",
 			"SpriteName": "DefenceTurret",
 			"Amount": 0,
 			"Stackable": true,
 			"IsSeed": false,
 			"ItemValue": 0,
 			"ItemDescription": "Makes life safer and more exciting."
+		},
+		{
+			"ItemID": 20,
+			"ItemName": "Hydroponic Farm",
+			"SpriteName": "HydroponicFarm",
+			"Amount": 0,
+			"Stackable": true,
+			"IsSeed": false,
+			"ItemValue": 0,
+			"ItemDescription": "The power of water is its ability to take any shape... well, at least it can fit in this hydroponic system. No seeds included."
 		}
 	]
 }
