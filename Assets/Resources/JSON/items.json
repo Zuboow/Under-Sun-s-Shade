@@ -209,6 +209,26 @@
 			"IsSeed": false,
 			"ItemValue": 0,
 			"ItemDescription": "The power of water is its ability to take any shape... well, at least it can fit in this hydroponic system. No seeds included."
+		},
+		{
+			"ItemID": 21,
+			"ItemName": "Basic Conveyor Belt",
+			"SpriteName": "BasicConveyorBelt",
+			"Amount": 0,
+			"Stackable": true,
+			"IsSeed": false,
+			"ItemValue": 0,
+			"ItemDescription": "Moves items. Yes."
+		},
+		{
+			"ItemID": 22,
+			"ItemName": "Assembly Machine",
+			"SpriteName": "AssemblyMachine",
+			"Amount": 0,
+			"Stackable": true,
+			"IsSeed": false,
+			"ItemValue": 0,
+			"ItemDescription": "Automatically makes items if ingredients are in."
 		}
 	]
 }

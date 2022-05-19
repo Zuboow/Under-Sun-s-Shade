@@ -16,7 +16,7 @@ public class ItemDropper : MonoBehaviour
         }
         if (Input.GetKeyDown(KeyCode.X))
         {
-            DropItem("Wheat Seeds", 2);
+            DropItem("Basic Conveyor Belt", 2);
         }
         if (Input.GetKeyDown(KeyCode.B))
         {

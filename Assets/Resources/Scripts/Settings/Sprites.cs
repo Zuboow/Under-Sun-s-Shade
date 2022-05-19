@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class Sprites : MonoBehaviour
 {
+    public static Dictionary<BuildingController.BuildingRotation, string> ConveyorBelts = new Dictionary<BuildingController.BuildingRotation, string>();
     public Sprite
         EmptyFarmingField,
         PlantedWheatField,
@@ -21,6 +22,14 @@ public class Sprites : MonoBehaviour
         Wheat,
         Carrot,
         Pumpkin
+    }
+
+    private void OnEnable()
+    {
+        ConveyorBelts.Add(BuildingController.BuildingRotation.Bottom, "BasicConveyorBelt_Bottom");
+        ConveyorBelts.Add(BuildingController.BuildingRotation.Top, "BasicConveyorBelt_Top");
+        ConveyorBelts.Add(BuildingController.BuildingRotation.Right, "BasicConveyorBelt_Right");
+        ConveyorBelts.Add(BuildingController.BuildingRotation.Left, "BasicConveyorBelt_Left");
     }
 
     public List<Sprite> LoadSprites(SeedType type)

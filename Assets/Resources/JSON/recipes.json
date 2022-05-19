@@ -34,6 +34,13 @@
 			"IngredientNames": [ "Iron Bar", "Stone", "none" ],
 			"IngredientQuantities": [ 8, 4, 0 ],
 			"AmountCrafted": 1
+		},
+		{
+			"CraftedItemName": "Assembly Machine",
+			"ItemID": 22,
+			"IngredientNames": [ "Iron Bar", "none", "none" ],
+			"IngredientQuantities": [ 10, 0, 0 ],
+			"AmountCrafted": 1
 		}
 	]
 }

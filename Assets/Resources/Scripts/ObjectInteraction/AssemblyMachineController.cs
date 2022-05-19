@@ -91,8 +91,6 @@ public class AssemblyMachineController : MonoBehaviour
                 selectedSlot.GetComponent<InventorySlotController>().UpdateGUI(Resources.Load<Sprite>($"Graphics/Sprites/{item.SpriteName}"));
                 selectedSlot.GetComponent<InventorySlotController>().SlotEmpty = false;
             }
-            //if (slot.GetComponent<InventorySlotController>().DesiredItemName.Trim() != "")
-            //    slot.GetComponent<InventorySlotController>().UpdateDesiredItemSprite();
         }
     }
 
@@ -117,7 +115,7 @@ public class AssemblyMachineController : MonoBehaviour
     {
         if (AssemblyMachineOpen)
         {
-            if (CurrentRecipe == null || CurrentRecipe.CraftedItemName != SelectedItemName)
+            if ((CurrentRecipe == null || CurrentRecipe.CraftedItemName != SelectedItemName) && SelectedItemName.Trim() != "")
             {
                 foreach (Recipe recipe in JSONLoader.JSONRecipes.RecipeList)
                 {
@@ -127,7 +125,7 @@ public class AssemblyMachineController : MonoBehaviour
                     }
                 }
             }
-            else if (!RecipeIngredientsLoaded)
+            else if (!RecipeIngredientsLoaded && CurrentRecipe != null && SelectedItemName.Trim() != "")
             {
                 AssemblyMachineUI.GetComponent<InventoryController>().InventorySlots[2].GetComponent<InventorySlotController>().DesiredItemName = CurrentRecipe.IngredientNames[0] == "none" ? "" : LoadSpriteName(CurrentRecipe.IngredientNames[0]);
                 AssemblyMachineUI.GetComponent<InventoryController>().InventorySlots[1].GetComponent<InventorySlotController>().DesiredItemName = CurrentRecipe.IngredientNames[1] == "none" ? "" : LoadSpriteName(CurrentRecipe.IngredientNames[1]);
