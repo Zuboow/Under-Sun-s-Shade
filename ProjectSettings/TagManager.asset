@@ -29,6 +29,7 @@ TagManager:
   - AssemblyMachine
   - AssemblyMachineOutputSlider
   - ConveyorBelt
+  - DroppedItem
   layers:
   - Default
   - TransparentFX

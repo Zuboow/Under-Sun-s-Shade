@@ -190,7 +190,7 @@ GameObject:
   - component: {fileID: 8376421154228347670}
   m_Layer: 0
   m_Name: DroppedItem
-  m_TagString: Untagged
+  m_TagString: DroppedItem
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -301,6 +301,11 @@ MonoBehaviour:
   CurrentItem:
     ItemID: 0
     Amount: 0
+    ItemValue: 0
     ItemName: 
     SpriteName: 
+    ItemDescription: 
     Stackable: 0
+    IsSeed: 0
+  DroppedFromInventory: 0
+  Grabbable: 1
