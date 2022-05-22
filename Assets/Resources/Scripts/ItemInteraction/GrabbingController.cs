@@ -8,7 +8,7 @@ public class GrabbingController : MonoBehaviour
     public Item CurrentItem = null;
     public static List<Item> AllSlots = new List<Item>();
     private bool InfoUpdated = false, CoroutineStarted = false;
-    public bool DroppedFromInventory = false;
+    public bool DroppedFromInventory = false, Grabbable = true;
 
     private void Update()
     {
@@ -26,7 +26,7 @@ public class GrabbingController : MonoBehaviour
             {
                 UpdateInfo();
             }
-            if (Vector2.Distance(GameObject.FindGameObjectWithTag("Player").transform.position, transform.position) < Settings.DistanceForItemsToSlideTowardsPlayer && CheckIfItemCanBeTaken(CurrentItem.ItemID))
+            if (Vector2.Distance(GameObject.FindGameObjectWithTag("Player").transform.position, transform.position) < Settings.DistanceForItemsToSlideTowardsPlayer && CheckIfItemCanBeTaken(CurrentItem.ItemID) && Grabbable)
             {
                 if (Vector2.Distance(GameObject.FindGameObjectWithTag("Player").transform.position, transform.position) > Settings.DistanceForItemsToAddToPlayerInventory)
                 {

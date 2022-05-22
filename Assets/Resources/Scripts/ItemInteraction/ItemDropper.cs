@@ -12,15 +12,15 @@ public class ItemDropper : MonoBehaviour
         }
         if (Input.GetKeyDown(KeyCode.V))
         {
-            DropItem("Chest", 1);
+            DropItem("Stone", 40);
         }
         if (Input.GetKeyDown(KeyCode.X))
         {
-            DropItem("Wheat Seeds", 2);
+            DropItem("Basic Conveyor Belt", 2);
         }
         if (Input.GetKeyDown(KeyCode.B))
         {
-            DropItem("DefenceTurret", 2);
+            DropItem("Iron Bar", 5);
         }
     }
 

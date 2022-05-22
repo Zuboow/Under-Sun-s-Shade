@@ -32,7 +32,8 @@ public class InventoryController : MonoBehaviour
             InventoryOpen = MainInventoryObject.activeInHierarchy;
             CloseInventory();
         }
-        LoadAllSlots();
+        if (InventorySlots.Count == 0)
+            LoadAllSlots();
         if (tag == "HotbarContainer")
         {
             ActiveHotbarSlot = HotbarSlots[0];

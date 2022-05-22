@@ -8,7 +8,9 @@ using UnityEngine.UI;
 public class InventorySlotController : MonoBehaviour
 {
     public Item SlotItem;
-    public bool SlotEmpty = true, Clickable = false, HotbarSlot = false, InventorySlot = false, FurnaceInputSlot = false, FurnaceFuelSlot = false, FurnaceOutputSlot = false;
+    public bool SlotEmpty = true, Clickable = false, HotbarSlot = false, InventorySlot = false, FurnaceInputSlot = false, FurnaceFuelSlot = false, FurnaceOutputSlot = false,
+        AssemblyMachineInput1 = false, AssemblyMachineInput2 = false, AssemblyMachineInput3 = false, AssemblyMachineOutput = false;
+    public string DesiredItemName = "";
 
     private void OnEnable()
     {
@@ -45,6 +47,12 @@ public class InventorySlotController : MonoBehaviour
             {
                 AutoMoveBetweenFurnaceAndInventory(gameObject, InventorySlot, HotbarSlot, SlotItem.ItemName, SlotItem.Amount, FurnaceInputSlot, FurnaceFuelSlot, FurnaceOutputSlot);
                 GrabbingController.EditItemList(GameObject.FindGameObjectWithTag("InventoryContainer"), GameObject.FindGameObjectWithTag("HotbarContainer"));
+            }
+            else if (Input.GetMouseButtonDown(0) && Input.GetKey(Settings.AutoAddButton) && Settings.InteractableInventoryType == Settings.OpenInteractableInventoryType.AssemblyMachine && !SlotEmpty)
+            {
+                AutoMoveBetweenAssemblyMachineAndInventory(gameObject, InventorySlot, HotbarSlot, SlotItem.ItemName, SlotItem.Amount, AssemblyMachineInput1, AssemblyMachineInput2, AssemblyMachineInput3, AssemblyMachineOutput);
+                GrabbingController.EditItemList(GameObject.FindGameObjectWithTag("InventoryContainer"), GameObject.FindGameObjectWithTag("HotbarContainer"));
+                UpdateOpenInteractableObjectInventory();
             }
             else if (Input.GetMouseButtonDown(0) && Input.GetKey(Settings.AutoAddButton) && ChestController.CurrentChest != null && !SlotEmpty && Clickable)
             {
@@ -132,6 +140,41 @@ public class InventorySlotController : MonoBehaviour
         }
     }
 
+    public static void AutoMoveBetweenAssemblyMachineAndInventory(GameObject clickedSlot, bool inventorySlot, bool hotbarSlot, string itemName, int quantity, bool input1, bool input2, bool input3, bool output)
+    {
+        int leftAmount = quantity;
+        if (!inventorySlot)
+        {
+            leftAmount = GameObject.FindGameObjectWithTag("ScriptExecutor").GetComponent<ItemManagementController>().AddItemToInventory(itemName, leftAmount);
+
+            if (input1)
+                AssemblyMachineController.CurrentAssemblyMachine.GetComponent<AssemblyMachineController>().RemoveItemFromInput(leftAmount, "input1");
+            if (input2)
+                AssemblyMachineController.CurrentAssemblyMachine.GetComponent<AssemblyMachineController>().RemoveItemFromInput(leftAmount, "input2");
+            if (input3)
+                AssemblyMachineController.CurrentAssemblyMachine.GetComponent<AssemblyMachineController>().RemoveItemFromInput(leftAmount, "input3");
+            if (output)
+                AssemblyMachineController.CurrentAssemblyMachine.GetComponent<AssemblyMachineController>().RemoveItemFromOutput(leftAmount);
+        }
+        else
+        {
+            leftAmount = AssemblyMachineController.CurrentAssemblyMachine.GetComponent<AssemblyMachineController>().AddItemToInput(itemName, quantity);
+
+            if (leftAmount == 0)
+            {
+                clickedSlot.GetComponent<InventorySlotController>().SlotItem = null;
+                clickedSlot.GetComponent<InventorySlotController>().SlotEmpty = true;
+                clickedSlot.GetComponent<InventorySlotController>().EmptyGUI();
+            }
+            else if (leftAmount != quantity)
+            {
+                clickedSlot.GetComponent<InventorySlotController>().SlotItem.Amount = leftAmount;
+                clickedSlot.GetComponent<InventorySlotController>().UpdateAmount();
+            }
+        }
+        AssemblyMachineController.CurrentAssemblyMachine.GetComponent<AssemblyMachineController>().RecipeIngredientsLoaded = false;
+    }
+
     public static void AutoMoveBetweenInventoryAndHotbar(GameObject clickedSlot, bool inventorySlot, string itemName, int quantity)
     {
         int leftAmount = GameObject.FindGameObjectWithTag(!inventorySlot ? "HotbarContainer" : "InventoryContainer").GetComponent<InventoryController>().AddItem(itemName, quantity);
@@ -158,6 +201,10 @@ public class InventorySlotController : MonoBehaviour
                 break;
             case Settings.OpenInteractableInventoryType.Furnace:
                 UpdateCurrentFurnace();
+                break;
+            case Settings.OpenInteractableInventoryType.AssemblyMachine:
+                UpdateCurrentAssemblyMachine();
+                AssemblyMachineController.CurrentAssemblyMachine.GetComponent<AssemblyMachineController>().RecipeIngredientsLoaded = false;
                 break;
         }
     }
@@ -190,6 +237,19 @@ public class InventorySlotController : MonoBehaviour
             FurnaceController.CurrentFurnace.GetComponent<FurnaceController>().InputItem = FurnaceSlots[0].GetComponent<InventorySlotController>().SlotItem == null ? null : FurnaceSlots[0].GetComponent<InventorySlotController>().SlotItem;
             FurnaceController.CurrentFurnace.GetComponent<FurnaceController>().OutputItem = FurnaceSlots[1].GetComponent<InventorySlotController>().SlotItem == null ? null : FurnaceSlots[1].GetComponent<InventorySlotController>().SlotItem;
             FurnaceController.CurrentFurnace.GetComponent<FurnaceController>().FuelItem = FurnaceSlots[2].GetComponent<InventorySlotController>().SlotItem == null ? null : FurnaceSlots[2].GetComponent<InventorySlotController>().SlotItem;
+        }
+    }
+
+    public static void UpdateCurrentAssemblyMachine()
+    {
+        if (AssemblyMachineController.CurrentAssemblyMachine != null)
+        {
+            List<GameObject> AssemblyMachineSlots = AssemblyMachineController.AssemblyMachineUI.GetComponent<InventoryController>().InventorySlots;
+            AssemblyMachineController.CurrentAssemblyMachine.GetComponent<AssemblyMachineController>().Input1 = AssemblyMachineSlots[0].GetComponent<InventorySlotController>().SlotItem == null ? null : AssemblyMachineSlots[0].GetComponent<InventorySlotController>().SlotItem;
+            AssemblyMachineController.CurrentAssemblyMachine.GetComponent<AssemblyMachineController>().Input2 = AssemblyMachineSlots[1].GetComponent<InventorySlotController>().SlotItem == null ? null : AssemblyMachineSlots[1].GetComponent<InventorySlotController>().SlotItem;
+            AssemblyMachineController.CurrentAssemblyMachine.GetComponent<AssemblyMachineController>().Input3 = AssemblyMachineSlots[2].GetComponent<InventorySlotController>().SlotItem == null ? null : AssemblyMachineSlots[2].GetComponent<InventorySlotController>().SlotItem;
+            AssemblyMachineController.CurrentAssemblyMachine.GetComponent<AssemblyMachineController>().Output = AssemblyMachineSlots[3].GetComponent<InventorySlotController>().SlotItem == null ? null : AssemblyMachineSlots[3].GetComponent<InventorySlotController>().SlotItem;
+
         }
     }
 
@@ -408,6 +468,11 @@ public class InventorySlotController : MonoBehaviour
     public void UpdateAmount()
     {
         transform.GetChild(0).GetComponent<TextMeshPro>().text = SlotItem.Stackable ? SlotItem.Amount.ToString() : "";
+    }
+
+    public void UpdateDesiredItemSprite(Item slotItem)
+    {
+        transform.GetChild(1).GetComponent<Image>().sprite = DesiredItemName.Trim() == "" || (slotItem != null && slotItem.ItemName.Trim() != "") ? Resources.Load<Sprite>($"Graphics/Sprites/Empty") : Resources.Load<Sprite>($"Graphics/Sprites/{DesiredItemName}");
     }
 
 }

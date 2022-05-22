@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 6729279475690346035}
   - component: {fileID: 5127116891632823501}
   m_Layer: 8
-  m_Name: FarmingField
+  m_Name: HydroponicFarm
   m_TagString: AffectedByTick
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

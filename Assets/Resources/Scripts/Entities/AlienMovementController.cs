@@ -37,6 +37,7 @@ public class AlienMovementController : MonoBehaviour
         else
         {
             AlienAnimator.Play("SmallAlien_Idle", -1);
+            FinishAnimation();
         }
     }
 

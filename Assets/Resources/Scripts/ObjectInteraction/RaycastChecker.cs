@@ -23,6 +23,10 @@ public class RaycastChecker : MonoBehaviour
             {
                 hit.transform.GetComponent<FurnaceController>().DecideOnMouseOver();
             }
+            if (hit.transform.tag == "AssemblyMachine")
+            {
+                hit.transform.GetComponent<AssemblyMachineController>().DecideOnMouseOver();
+            }
         }
     }
 

@@ -10,6 +10,9 @@ public class Buildings : MonoBehaviour
     {
         NameAndPath.Add("Furnace", "Prefabs/Objects/Furnace");
         NameAndPath.Add("Chest", "Prefabs/Objects/Chest");
-        NameAndPath.Add("DefenceTurret", "Prefabs/Objects/DefenceTurret");
+        NameAndPath.Add("Defence Turret", "Prefabs/Objects/DefenceTurret");
+        NameAndPath.Add("Hydroponic Farm", "Prefabs/Objects/HydroponicFarm");
+        NameAndPath.Add("Basic Conveyor Belt", "Prefabs/Objects/BasicConveyorBelt");
+        NameAndPath.Add("Assembly Machine", "Prefabs/Objects/AssemblyMachine");
     }
 }

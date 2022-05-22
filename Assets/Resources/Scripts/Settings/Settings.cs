@@ -13,6 +13,7 @@ public class Settings : MonoBehaviour
         UseButton = KeyCode.F, 
         DroppingButton = KeyCode.Q, 
         CraftingViewButton = KeyCode.C,
+        BuildingRotationButton = KeyCode.R,
         AutoAddButton = KeyCode.LeftShift;
     public static Vector2
         ClosedInventoryPosition = new Vector2(9999, 9999),
@@ -41,7 +42,8 @@ public class Settings : MonoBehaviour
         DistanceForObjectsToBeInteractable = 2f,
         DistanceForThingsToBeAudible = 20f,
         DistanceForTurretToDetectEntities = 5f,
-        DistanceForAlienToDetectPlayerOrBuildings = 60f,
+        DistanceForAlienToDetectPlayerOrBuildings = 10f,
+        MaxDistanceBetweenItemsOnConveyorBelt = 0.22f,
         TurretShootingInterval = 0.1f;
     public static bool 
         CheckCollisionOnAnimationHit = false, 
@@ -57,7 +59,8 @@ public class Settings : MonoBehaviour
     {
         Empty,
         Chest,
-        Furnace
+        Furnace,
+        AssemblyMachine
     }
 
     private void Start()
